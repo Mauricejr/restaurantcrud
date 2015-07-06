@@ -68,15 +68,15 @@ class OrderServices @Inject() (orderServicesDAO: OrderServicesDAO, paymentDAO: P
       customerpayment => {
         getFutureResult(customerpayment.customerOrderID, orderServicesDAO.findUserOrderByOrderId(customerpayment.customerOrderID)) { custOrderId =>
           Future.successful {
-            val totalPriceOwn = paymentDAO.findUserPaymentByCustOrderId(customerpayment.customerOrderID).flatMap(x => x.totalPrice)
-            val isPricePaidEqualToAmountOwn = (totalPriceOwn.get < customerpayment.pricePaid)
-            isPricePaidEqualToAmountOwn match {
+            val totalPriceDue = paymentDAO.findUserPaymentByCustOrderId(customerpayment.customerOrderID).flatMap(x => x.totalPrice)
+            val isPricePaidEqualToAmountDue = (totalPriceDue.get < customerpayment.pricePaid)
+            isPricePaidEqualToAmountDue match {
               case true => {
-                paymentDAO.updateUserPayment(customerpayment.copy(totalPrice = totalPriceOwn))
+                paymentDAO.updateUserPayment(customerpayment.copy(totalPrice = totalPriceDue))
                 Ok(Json.toJson((s"Successfully pay for order $order.customerOrderID")))
               }
               case false =>
-                Ok(Json.toJson((s"price paid lower than expecting price : $totalPriceOwn")))
+                Ok(Json.toJson((s"price paid less than due price : $totalPriceDue")))
             }
           }
         }
