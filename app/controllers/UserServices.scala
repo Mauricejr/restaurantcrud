@@ -34,7 +34,6 @@ class UserServices @Inject() (orderServicesDAO: OrderServicesDAO, userServicesDA
         }
       }
     }
-
   }
 
   def createUser = Action.async(BodyParsers.parse.json) { implicit request =>
@@ -64,8 +63,11 @@ class UserServices @Inject() (orderServicesDAO: OrderServicesDAO, userServicesDA
     }
     hasUserDeleted map { b =>
       b match {
-        case false => Ok(Json.obj("User not" -> "User not deleted"))
-        case true => Ok(s"User ID $Json.toJson(userId) succeful deleted" + userServicesDAO.deleteAddres(userId))
+        case false => Ok(Json.obj("User" -> "User not deleted"))
+        case true => {
+          userServicesDAO.deleteAddres(userId)
+          Ok(s"User ID $Json.toJson(userId) successful deleted")
+        }
       }
     }
 
