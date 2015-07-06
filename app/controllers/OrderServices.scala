@@ -49,8 +49,8 @@ class OrderServices @Inject() (orderServicesDAO: OrderServicesDAO, paymentDAO: P
             val productID = (id: Long) => productDAO.findProduct(id) map { x => x.price }
             orderServicesDAO.createOrderItems(custOrderId, order.orders)
             val productPrice = order.orders map { x => CalculatePrice.cal(x.item_quantity, productID(x.item_id)) }
-            val totalPriceOwn = productPrice.foldLeft(0.0) { (a, value) => value + a }
-            paymentDAO.addPayment(CustPaymentOrder(None, custOrderId, None, Some(totalPriceOwn), order.custOrder.user_Id, 0))
+            val totalPriceDue = productPrice.foldLeft(0.0) { (a, value) => value + a }
+            paymentDAO.addPayment(CustPaymentOrder(None, custOrderId, None, Some(totalPriceDue), order.custOrder.user_Id, 0))
             Ok(Json.toJson((s"Successfully place order, customer orderId : $custOrderId")))
           }
         }
