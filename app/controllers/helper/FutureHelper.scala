@@ -24,7 +24,6 @@ object FutureHelper {
   }
 
   def getConverttoFutureResult[T](futureOptionBlock: Option[T])(success: (T => Future[Result])): Future[Result] = {
-
     futureOptionBlock match {
       case Some(found) =>
         success(found)
@@ -34,7 +33,6 @@ object FutureHelper {
   }
 
   def getConvertBooleanFutureResult[T](futureOptionBlock: Option[Boolean])(success: (T => Future[Result])): Future[Result] = {
-
     futureOptionBlock match {
       case Some(found) =>
         Future.successful(NotFound)
@@ -61,12 +59,9 @@ object FutureHelper {
   }
 
   def convertoCust(orders: Map[CustomerOrder, List[Order]]) = {
-
     val s = for (
       x <- orders
     ) yield (((Option(CustomerOrders(x._1, x._2)))))
     s
-
   }
-
 }
