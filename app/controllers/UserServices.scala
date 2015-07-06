@@ -27,7 +27,7 @@ class UserServices @Inject() (orderServicesDAO: OrderServicesDAO, userServicesDA
     implicit val address = Json.format[Address]
     implicit val user = Json.format[User]
     implicit val customerOder = Json.format[UserInformation]
-    getFutureWithOption(userId, userServicesDAO.findUser(userId)) { c =>
+    getFutureResult(userId, userServicesDAO.findUser(userId)) { c =>
       getConvertToFutureResult(userServicesDAO.findAddress(userId)) { x =>
         Future.successful {
           Ok(Json.toJson((UserInformation(c, x))))

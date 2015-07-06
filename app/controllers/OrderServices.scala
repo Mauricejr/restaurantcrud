@@ -66,7 +66,7 @@ class OrderServices @Inject() (orderServicesDAO: OrderServicesDAO, paymentDAO: P
           BadRequest(Json.obj("message" -> JsError.toJson(errors))))
       },
       customerpayment => {
-        getFutureWithOption(customerpayment.customerOrderID, orderServicesDAO.findUserOrderByOrderId(customerpayment.customerOrderID)) { custOrderId =>
+        getFutureResult(customerpayment.customerOrderID, orderServicesDAO.findUserOrderByOrderId(customerpayment.customerOrderID)) { custOrderId =>
           Future.successful {
             val totalPriceOwn = paymentDAO.findUserPaymentByCustOrderId(customerpayment.customerOrderID).flatMap(x => x.totalPrice)
             val isPricePaidEqualToAmountOwn = (totalPriceOwn.get < customerpayment.pricePaid)
@@ -84,7 +84,7 @@ class OrderServices @Inject() (orderServicesDAO: OrderServicesDAO, paymentDAO: P
   }
 
   def getCustomerOrder(orderId: Long) = Action.async { implicit request =>
-    getFutureWithOption(orderId, orderServicesDAO.findUserOrderByOrderId(orderId)) { c =>
+    getFutureResult(orderId, orderServicesDAO.findUserOrderByOrderId(orderId)) { c =>
       getConvertToFutureResult(orderServicesDAO.findUserOrderItem(orderId, c)) { x =>
         Future.successful {
           Ok(Json.toJson((x)))

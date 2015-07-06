@@ -41,7 +41,7 @@ object FutureHelper {
     }
   }
 
-  def getFutureWithOption[T](id: Long, futureOptionBlock: Option[T])(success: (T => Future[Result])): Future[Result] = {
+  def getFutureResult[T](id: Long, futureOptionBlock: Option[T])(success: (T => Future[Result])): Future[Result] = {
 
     futureOptionBlock match {
       case Some(found) =>
