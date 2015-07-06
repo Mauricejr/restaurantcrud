@@ -63,7 +63,7 @@ class RestaurantServices @Inject() (productDAO: ProductDAO, tableDAO: TableDAO, 
           BadRequest(Json.obj("message" -> JsError.toJson(errors))))
       },
       table => {
-        getConvertToFutureResult(tableDAO.addTable(table)) { tableId =>
+        getConvertToFutureResult(tableDAO.addTable(table.copy(occupied = Some(false)))) { tableId =>
           Future.successful {
             Ok(Json.toJson((s"successfully creates new table $tableId")))
           }

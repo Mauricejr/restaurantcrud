@@ -66,7 +66,7 @@ class UserServices @Inject() (orderServicesDAO: OrderServicesDAO, userServicesDA
         case false => Ok(Json.obj("User" -> "User not deleted"))
         case true => {
           userServicesDAO.deleteAddres(userId)
-          Ok(s"User ID $Json.toJson(userId) successful deleted")
+          Ok(Json.obj("User ID" -> userId) + s" successful deleted")
         }
       }
     }
