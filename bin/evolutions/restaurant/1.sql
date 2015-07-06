@@ -82,8 +82,9 @@ CREATE TABLE `CustomerOrderItems` (
   CONSTRAINT `customerorderitems_ibfk_1` FOREIGN KEY (`customerOrder_Id`) REFERENCES `custOrder` (`id`)
 ) ;
 
-
 # --- !Downs
 Drop Table user;
 Drop Table address;
+Drop Table CustomerOrderItems;
+Drop Table CustOrder;
 

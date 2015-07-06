@@ -44,7 +44,7 @@ class OrderServices @Inject() (orderServicesDAO: OrderServicesDAO, paymentDAO: P
           BadRequest(Json.obj("message" -> JsError.toJson(errors))))
       },
       order => {
-        getConvertToFuturet(orderServicesDAO.createOrder(order.custOrder)) { custOrderId =>
+        getConvertToFutureResult(orderServicesDAO.createOrder(order.custOrder)) { custOrderId =>
           Future.successful {
             val productID = (id: Long) => productDAO.findProduct(id) map { x => x.price }
             orderServicesDAO.createOrderItems(custOrderId, order.orders)
@@ -85,7 +85,7 @@ class OrderServices @Inject() (orderServicesDAO: OrderServicesDAO, paymentDAO: P
 
   def getCustomerOrder(orderId: Long) = Action.async { implicit request =>
     getFutureWithOption(orderId, orderServicesDAO.findUserOrderByOrderId(orderId)) { c =>
-      getConvertToFuturet(orderServicesDAO.findUserOrderItem(orderId, c)) { x =>
+      getConvertToFutureResult(orderServicesDAO.findUserOrderItem(orderId, c)) { x =>
         Future.successful {
           Ok(Json.toJson((x)))
         }

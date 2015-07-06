@@ -28,7 +28,7 @@ class UserServices @Inject() (orderServicesDAO: OrderServicesDAO, userServicesDA
     implicit val user = Json.format[User]
     implicit val customerOder = Json.format[UserInformation]
     getFutureWithOption(userId, userServicesDAO.findUser(userId)) { c =>
-      getConvertToFuturet(userServicesDAO.findAddress(userId)) { x =>
+      getConvertToFutureResult(userServicesDAO.findAddress(userId)) { x =>
         Future.successful {
           Ok(Json.toJson((UserInformation(c, x))))
         }
@@ -46,8 +46,8 @@ class UserServices @Inject() (orderServicesDAO: OrderServicesDAO, userServicesDA
           BadRequest(Json.obj("message" -> JsError.toJson(errors))))
       },
       user => {
-        getConvertToFuturet(userServicesDAO.addUser(user.user)) { userId =>
-          getConvertToFuturet(userServicesDAO.addAddress(user.address.copy(user_id = Some(userId)))) { addressId =>
+        getConvertToFutureResult(userServicesDAO.addUser(user.user)) { userId =>
+          getConvertToFutureResult(userServicesDAO.addAddress(user.address.copy(user_id = Some(userId)))) { addressId =>
             Future.successful {
               userServicesDAO.updateUser(userId, addressId)
               Ok(Json.toJson((userId)))

@@ -29,7 +29,7 @@ class RestaurantServices @Inject() (productDAO: ProductDAO, tableDAO: TableDAO, 
           BadRequest(Json.obj("message" -> JsError.toJson(errors))))
       },
       product => {
-        getConvertToFuturet(productDAO.addProduct(product)) { productId =>
+        getConvertToFutureResult(productDAO.addProduct(product)) { productId =>
           Future.successful {
             Ok(Json.toJson((s"successfully inserting new product to databas $productId")))
           }
@@ -47,7 +47,7 @@ class RestaurantServices @Inject() (productDAO: ProductDAO, tableDAO: TableDAO, 
       },
 
       paymentType => {
-        getConvertToFuturet(paymentDAO.addPaymentType(paymentType)) { productId =>
+        getConvertToFutureResult(paymentDAO.addPaymentType(paymentType)) { productId =>
           Future.successful {
             Ok(Json.toJson((s"successfully inserting new product to databas $productId")))
           }
@@ -64,7 +64,7 @@ class RestaurantServices @Inject() (productDAO: ProductDAO, tableDAO: TableDAO, 
           BadRequest(Json.obj("message" -> JsError.toJson(errors))))
       },
       table => {
-        getConvertToFuturet(tableDAO.addTable(table)) { tableId =>
+        getConvertToFutureResult(tableDAO.addTable(table)) { tableId =>
           Future.successful {
             Ok(Json.toJson((s"successfully inserting new table to databas $tableId")))
           }

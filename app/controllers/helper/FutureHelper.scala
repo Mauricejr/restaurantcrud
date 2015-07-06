@@ -13,7 +13,7 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 object FutureHelper {
   implicit val customerOder = Json.format[CustomerOrder]
   implicit val order = Json.format[Order]
-  def getConvertToFuturet[T](futureOptionBlock: Option[T])(success: (T => Future[Result])): Future[Result] = {
+  def getConvertToFutureResult[T](futureOptionBlock: Option[T])(success: (T => Future[Result])): Future[Result] = {
 
     futureOptionBlock match {
       case Some(found) =>
@@ -23,7 +23,7 @@ object FutureHelper {
     }
   }
 
-  def getConverttoFuturet[T](futureOptionBlock: Option[T])(success: (T => Future[Result])): Future[Result] = {
+  def getConverttoFutureResult[T](futureOptionBlock: Option[T])(success: (T => Future[Result])): Future[Result] = {
 
     futureOptionBlock match {
       case Some(found) =>
@@ -33,7 +33,7 @@ object FutureHelper {
     }
   }
 
-  def getConvertToFuturetBol[T](futureOptionBlock: Option[Boolean])(success: (T => Future[Result])): Future[Result] = {
+  def getConvertBooleanFutureResult[T](futureOptionBlock: Option[Boolean])(success: (T => Future[Result])): Future[Result] = {
 
     futureOptionBlock match {
       case Some(found) =>
